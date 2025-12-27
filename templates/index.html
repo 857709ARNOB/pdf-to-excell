@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDF → Excel (Bangla Voter List)</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="wrap">
+    <h1>PDF → Excel (Bangla Voter List)</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alert">
+          {% for m in messages %}
+            <div>⚠️ {{ m }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form class="card" action="/upload" method="post" enctype="multipart/form-data">
+      <label class="label">PDF Upload করুন:</label>
+      <input class="file" type="file" name="pdf" accept=".pdf" required>
+      <button class="btn" type="submit">Upload & Convert</button>
+      <p class="hint">Upload হওয়ার পরে Excel অটো তৈরি হবে।</p>
+    </form>
+
+    {% if success %}
+    <div class="card">
+      <h2>✅ Done!</h2>
+      <p>Job ID: <b>{{ job_id }}</b></p>
+      <p>Total rows: <b>{{ total }}</b></p>
+
+      <div class="dl">
+        <a class="btn" href="/download/pdf/{{ pdf_file }}">⬇ Download PDF</a>
+        <a class="btn" href="/download/excel/{{ excel_file }}">⬇ Download Excel</a>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>
